@@ -1,4 +1,4 @@
-package src;
+package classes;
 
 public abstract class Pessoa{
     private String nome;
@@ -9,4 +9,6 @@ public abstract class Pessoa{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public abstract void consultarSituacao();
 }

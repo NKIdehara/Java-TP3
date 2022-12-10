@@ -1,4 +1,4 @@
-package src;
+package classes;
     
 public class Aluno extends Pessoa{
 	public float nota1;
@@ -15,5 +15,13 @@ public class Aluno extends Pessoa{
 	}
 	public void setNota2(float nota2) {
 		this.nota2 = nota2;
-	}    
+	}
+
+	public void consultarSituacao(){
+		System.out.println("\n");
+		System.out.println("Aluno(a): " + this.getNome());
+		System.out.println("Nota 1: " + this.getNota1());
+		System.out.println("Nota 2: " + this.getNota2());
+	}
+
 }
