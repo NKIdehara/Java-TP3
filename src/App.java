@@ -14,13 +14,11 @@
 
 import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner14;
-
 import classes.Professor;
+import classes.Aluno;
 import exceptions.SalaInvalidaException;
 import exceptions.NomeInvalidoException;
 import exceptions.NotaInvalidaException;
-import classes.Aluno;
 
 class Main {
     private static int opcao;                  // opção do menu
@@ -36,6 +34,7 @@ class Main {
     public static void main(String[] args) {        
         Scanner in = new Scanner(System.in);
 
+        // ADICIONA PROFESSORES E ALUNOS PARA TESTE
         Teste();
 
         do {
