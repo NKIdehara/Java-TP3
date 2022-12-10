@@ -14,7 +14,12 @@
 
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner14;
+
 import classes.Professor;
+import exceptions.SalaInvalidaException;
+import exceptions.NomeInvalidoException;
+import exceptions.NotaInvalidaException;
 import classes.Aluno;
 
 class Main {
@@ -31,6 +36,7 @@ class Main {
     public static void main(String[] args) {        
         Scanner in = new Scanner(System.in);
 
+        Teste();
 
         do {
             System.out.println("\n");
@@ -63,48 +69,71 @@ class Main {
 
     private static void cadastrarProfessor() {
         Scanner in = new Scanner(System.in);
+        String nome;
+        int sala;
+        boolean novoProfessor = false;
 
         if (TAMANHO == qtdeProfessores+1)
-            System.out.println("\nNão é possível incluir novo professor(a).\nQuantidade máxima de professores!");            
+            System.out.println("\nNão é possível incluir novo professor(a).\nQuantidade máxima de professores!");
         else {
-            qtdeProfessores++;
-            Professor professor = new Professor();
             System.out.println("\nCADASTRAR PROFESSOR(A)");
-                
+            
             System.out.print("Nome do Professor(a): ");
-            professor.setNome(in.nextLine());
+            nome = in.nextLine();
     
             System.out.print("Sala do Professor: ");
-            professor.setSala(Integer.valueOf(in.next()));
+            sala = Integer.valueOf(in.next());
 
-            professores[qtdeProfessores] = professor;
-            System.out.print("\nCodigo do Professor(a): " + qtdeProfessores);
+            try {
+                qtdeProfessores++;
+                professores[qtdeProfessores] = new Professor(nome, sala);
+                novoProfessor = true;
+            } catch (NomeInvalidoException | SalaInvalidaException e) {
+                System.out.println("[ERROR] " + e.getMessage());
+                qtdeProfessores--; // ERRO: professor não incluído
+            } finally {
+                if (novoProfessor) 
+                    System.out.print("\nCodigo do Professor(a): " + qtdeProfessores);
+                else 
+                    System.out.print("\nProfessor(a) nao cadastrado(a)!");
+            }
         }
 }
     
     private static void cadastrarAluno() {
         Scanner in = new Scanner(System.in);
+        String nome;
+        float nota1;
+        float nota2;
+        boolean novoAluno = false;
 
         if (TAMANHO == qtdeAlunos+1)
             System.out.println("\nNão é possível incluir novo aluno(a).\nQuantidade máxima de alunos!");            
         else {
-            qtdeAlunos++;
-
-            Aluno aluno = new Aluno();
-
             System.out.println("\nCADASTRAR ALUNO(A)");
             
             System.out.print("Nome do Aluno(a): ");
-            aluno.setNome(in.nextLine());
+            nome = in.nextLine();
 
             System.out.print("Nota da Avaliacao 1: ");
-            aluno.setNota1(Float.parseFloat(in.next()));
+            nota1 = Float.parseFloat(in.next());
             
             System.out.print("Nota da Avaliacao 2: ");
-            aluno.setNota2(Float.parseFloat(in.next()));
+            nota2 = Float.parseFloat(in.next());
 
-            alunos[qtdeAlunos] = aluno;
-            System.out.print("\nCodigo do Aluno(a): " + qtdeAlunos);
+            try {
+                qtdeAlunos++;
+                alunos[qtdeAlunos] = new Aluno(nome, nota1, nota2);
+                novoAluno = true;
+            } catch (NomeInvalidoException | NotaInvalidaException e) {
+                System.out.println("[ERROR] " + e.getMessage());
+                qtdeAlunos--; // ERRO: aluno não incluído
+            } finally {
+                if (novoAluno) 
+                    System.out.print("\nCodigo do Aluno(a): " + qtdeAlunos);
+                else 
+                    System.out.print("\nAluno(a) nao cadastrado(a)!");
+            }
         }
     }
     
@@ -141,8 +170,42 @@ class Main {
                         alunos[codigo].consultarSituacao();
                 break;
             }
-        } while (opcao != 3);
-       
+        } while (opcao != 3);       
+    }
+
+    // somente para testes
+    private static void Teste(){
+        try {
+            professores[0] = new Professor("André Lima Santos", 54);
+            professores[1] = new Professor("Bárbara Oliveira Monteiro",14); 
+            professores[2] = new Professor("Beatriz Pereira Albuquerque",23); 
+            professores[3] = new Professor("Bianca Souza Cardoso",05); 
+            professores[4] = new Professor("Breno Ramos Carmo",76); 
+            professores[5] = new Professor("Bruna Olívia Mesquita",32); 
+            professores[6] = new Professor("Bruno Moura Carvalho",19); 
+            professores[7] = new Professor("Caio Botelho Machado",26); 
+            professores[8] = new Professor("Camila Martins Ribeiro",31); 
+            professores[9] = new Professor("Carolina Stella Silva",52); 
+        } catch (NomeInvalidoException | SalaInvalidaException e) {
+			System.out.println("[ERROR] " + e.getMessage());
+		}
+        qtdeProfessores = 9;
+
+        try {
+            alunos[0] = new Aluno("Catarina Sara Moraes",5.6f,8.7f); 
+            alunos[1] = new Aluno("Cecília Milena Gomes",6.2f,9.6f); 
+            alunos[2] = new Aluno("Clara Batista Ramos",6.8f,9.0f); 
+            alunos[3] = new Aluno("Clarice Ferreira Cruz",6.8f,7.8f); 
+            alunos[4] = new Aluno("Daniel Andrade Souza",6.6f,8.3f); 
+            alunos[5] = new Aluno("Danilo Bernardes Dias",9.3f,8.7f); 
+            alunos[6] = new Aluno("Eduarda Letícia Mendes",7.3f,6.6f); 
+            alunos[7] = new Aluno("Erick Vitor Costa",5.9f,7.5f); 
+            alunos[8] = new Aluno("Esther Figueiredo Pereira",9.4f,6.7f); 
+            alunos[9] = new Aluno("Henrique Freitas Couto",7.5f,7.1f); 
+        } catch (NomeInvalidoException | NotaInvalidaException e) {
+			System.out.println("[ERROR] " + e.getMessage());
+		}
+        qtdeAlunos = 9;
     }
 
 }
